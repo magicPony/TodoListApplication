@@ -6,6 +6,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.taras.todolistapplication.todoListModules.TodoListAdapter;
@@ -73,9 +75,23 @@ public class MainActivity extends AppCompatActivity implements IOnlineDbHandler 
     @Override
     protected void onResume() {
         super.onResume();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        getData();
+    }
 
-        database.getReference(ApiConst.TODO_LIST).addListenerForSingleValueEvent(new ValueEventListener() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        getData();
+        return true;
+    }
+
+    public void getData() {
+        mDatabase.getReference(ApiConst.TODO_LIST).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(TAG, "OnDataChange");
